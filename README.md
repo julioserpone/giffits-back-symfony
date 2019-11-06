@@ -29,6 +29,19 @@ The database connection information is stored as an environment variable called 
 DATABASE_URL=mysql://giffits-user:password@127.0.0.1:3306/giffits-test
 ```
 
+### Migrations: Creating the Database Tables/Schema
+We first create the file that will allow us to implement the changes in the database with the following command:
+
+```bash
+php bin/console make:migration
+```
+
+Next, we must execute the following command to apply the database schema changes.:
+
+```bash
+php bin/console doctrine:migrations:migrate
+```
+
 ### Start a server
 After the installation you need to start a server first via Symfony console:
 
