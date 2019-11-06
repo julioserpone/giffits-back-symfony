@@ -42,6 +42,12 @@ Next, we must execute the following command to apply the database schema changes
 php bin/console doctrine:migrations:migrate
 ```
 
+### Preload sample data with DataFixtures
+
+```bash
+php bin/console doctrine:fixtures:load
+```
+
 ### Start a server
 After the installation you need to start a server first via Symfony console:
 
