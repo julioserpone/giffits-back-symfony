@@ -19,6 +19,29 @@ class PersonalRepository extends ServiceEntityRepository
         parent::__construct($registry, Personal::class);
     }
 
+    public function transform(Personal $personal)
+    {
+        return [
+                'id'    => (int) $personal->getId(),
+                'name' => (string) $personal->getName(),
+                'last_name' => (string) $personal->getLastName(),
+                'email' => (string) $personal->getEmail(),
+                'identification' => (string) $personal->getIdentification()
+        ];
+    }
+
+    public function transformAll()
+    {
+        $personal_list = $this->findAll();
+        $personalArray = [];
+
+        foreach ($personal_list as $personal) {
+            $personalArray[] = $this->transform($personal);
+        }
+
+        return $personalArray;
+    }
+
     // /**
     //  * @return Personal[] Returns an array of Personal objects
     //  */

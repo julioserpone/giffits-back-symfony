@@ -15,8 +15,9 @@ Login to the MySQL server via console
  mysql --user=root
 ```
 
-Next, create user in MySQL
+Next, create database and user in MySQL
 ```bash
+CREATE DATABASE giffits_test;
 GRANT ALL PRIVILEGES ON *.* TO 'giffits-user'@'localhost' IDENTIFIED BY 'password';
 FLUSH PRIVILEGES;
 EXIT;
@@ -26,14 +27,14 @@ EXIT;
 The database connection information is stored as an environment variable called DATABASE_URL. For development, you can find and customize this inside .env:
 
 ```bash
-DATABASE_URL=mysql://giffits-user:password@127.0.0.1:3306/giffits-test
+DATABASE_URL=mysql://giffits-user:password@127.0.0.1:3306/giffits_test
 ```
 
 ### Migrations: Creating the Database Tables/Schema
 We first create the file that will allow us to implement the changes in the database with the following command:
 
 ```bash
-php bin/console make:migration
+php bin/console doctrine:migrations:migrate
 ```
 
 Next, we must execute the following command to apply the database schema changes.:
