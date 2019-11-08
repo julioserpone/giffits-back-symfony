@@ -19,21 +19,21 @@ class PersonalService
     }
 
     /**
-     * @param  string $person_id 
+     * @param  string $id 
      * @return Personal|null
      */
-    public function findPerson(string $person_id) : ?Personal
+    public function findPerson(string $id) : ?Personal
     {
-        return $this->personalRepository->find($person_id);
+        return $this->personalRepository->find($id);
     }
 
     /**
-     * @param  string $person_id
+     * @param  string $id
      * @return array|null
      */
-    public function getPerson(string $person_id) : ?array
+    public function getPerson(string $id) : ?array
     {
-        $person = $this->personalRepository->find($person_id);
+        $person = $this->personalRepository->find($id);
 
         return ($person) ? $this->personalRepository->transform($person) : null;
     }
@@ -80,7 +80,7 @@ class PersonalService
         string $name, 
         string $last_name, 
         string $email, 
-        string $identification)
+        string $identification) : array
     {
         $person = new Personal();
         $person->setName($name)
@@ -93,7 +93,11 @@ class PersonalService
         return $this->personalRepository->transform($new_person);
     }
     
-    public function deletePerson($id)
+    /**
+     * @param  string $id
+     * @return Personal|null
+     */
+    public function deletePerson($id) : ?Personal
     {   
         return $this->personalRepository->delete($this->personalRepository->find($id));
     }

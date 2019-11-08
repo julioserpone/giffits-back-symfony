@@ -113,4 +113,22 @@ class PersonalController extends ApiController
 
         return $this->respond($person);
     }
+
+    /**
+    * @Route("/personal/{id}/delete", methods="DELETE")
+    * @param  string $id
+    */
+    public function delete(string $id)
+    {
+        $person = $this->personalService->getPerson($id);
+
+        if (!$person) 
+        {
+            return $this->respondNotFound('Person not found!!');
+        }
+
+        $person = $this->personalService->deletePerson($id);
+
+        return $this->respond($person);
+    }
 }
