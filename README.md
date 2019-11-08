@@ -31,13 +31,7 @@ DATABASE_URL=mysql://giffits-user:password@127.0.0.1:3306/giffits_test
 ```
 
 ### Migrations: Creating the Database Tables/Schema
-We first create the file that will allow us to implement the changes in the database with the following command:
-
-```bash
-php bin/console doctrine:migrations:migrate
-```
-
-Next, we must execute the following command to apply the database schema changes.:
+We must execute the following command to apply the database schema changes.:
 
 ```bash
 php bin/console doctrine:migrations:migrate

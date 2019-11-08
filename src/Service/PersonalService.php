@@ -4,8 +4,12 @@ namespace App\Service;
 use App\Repository\PersonalRepository;
 use Doctrine\ORM\EntityManager;
 
-class PersonalService extends AbstractService
+class PersonalService
 {
+    /**
+     * Personal Repository
+     * @var App\Repository\PersonalRepository
+     */
     private $personalRepository;
 
     public function __construct(PersonalRepository $personal_repository)
@@ -13,14 +17,11 @@ class PersonalService extends AbstractService
         $this->personalRepository = $personal_repository;
     }
 
-    public function getModel()
+    public function getPerson($person_id)
     {
-        return $this->model;
-    }
+        $person = $this->personalRepository->find($person_id);
 
-    public function getPersonal($personal_id)
-    {
-        return $this->personalRepository->find($personal_id);
+        return ($person) ? $this->personalRepository->transform($person) : null;
     }
 
     public function getAllPersonal()
@@ -28,12 +29,12 @@ class PersonalService extends AbstractService
         return $this->personalRepository->transformAll();
     }
 
-    public function addPersonal()
+    public function addPerson()
     {
         return $this->personalRepository->save();
     }
     
-    public function deletePersonal($id)
+    public function deletePerson($id)
     {   
         return $this->personalRepository->delete($this->personalRepository->find($id));
     }

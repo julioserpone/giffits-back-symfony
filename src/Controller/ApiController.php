@@ -28,7 +28,7 @@ abstract class ApiController
      *
      * @return self
      */
-    protected function setStatusCode($statusCode) : int
+    protected function setStatusCode($statusCode) : self
     {
         $this->statusCode = $statusCode;
         return $this;
