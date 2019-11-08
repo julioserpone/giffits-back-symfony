@@ -42,6 +42,18 @@ final class PersonalRepository extends ServiceEntityRepository
         return $personalArray;
     }
 
+    public function update(string $id, Personal $data_updated)
+    {
+        $person = $this->find($id);
+
+        $person->setName($data_updated->name)
+            ->setLastName($data_updated->last_name)
+            ->setEmail($data_updated->email)
+            ->setIdentification($data_updated->identification);
+
+        $this->_em->flush();
+    }
+
     // /**
     //  * @return Personal[] Returns an array of Personal objects
     //  */

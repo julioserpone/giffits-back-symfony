@@ -31,12 +31,35 @@ class PersonalController extends ApiController
     }
 
     /**
-    * @Route("/personal/{id}", methods="GET")
+    * @Route("/personal/{id}/edit", methods="GET")
     */
-    public function view(string $id)
+    public function edit(string $id)
     {
         $person = $this->personalService->getPerson($id);
 
         return ($person) ? $this->respond($person) : $this->respondNotFound('Person not found!!');
+    }
+
+    /**
+    * @Route("/personal/{id}/update", methods="PUT")
+    */
+    public function update(Request $request, string $id)
+    {
+        $person = $this->personalService->findPerson($id);
+        $request = $this->transformJsonBody($request);
+
+        if (!$person) 
+        {
+            return $this->respondNotFound('Person not found!!');
+        }
+
+        $person = $this->personalService->updatePerson(
+            $id, 
+            $request->get('name'), 
+            $request->get('last_name'), 
+            $request->get('email'), 
+            $request->get('identification'));
+
+        return $this->respond($person);
     }
 }

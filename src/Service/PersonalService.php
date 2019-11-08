@@ -1,6 +1,7 @@
 <?php 
 namespace App\Service;
 
+use App\Entity\Personal;
 use App\Repository\PersonalRepository;
 use Doctrine\ORM\EntityManager;
 
@@ -17,16 +18,45 @@ class PersonalService
         $this->personalRepository = $personal_repository;
     }
 
-    public function getPerson($person_id)
+    /**
+     * @param  string $person_id 
+     * @return Personal|null
+     */
+    public function findPerson(string $person_id) : ?Personal
+    {
+        return $this->personalRepository->find($person_id);
+    }
+
+    /**
+     * @param  string $person_id
+     * @return array|null
+     */
+    public function getPerson(string $person_id) : ?array
     {
         $person = $this->personalRepository->find($person_id);
 
         return ($person) ? $this->personalRepository->transform($person) : null;
     }
 
-    public function getAllPersonal()
+    public function getAllPersonal() : array
     {
         return $this->personalRepository->transformAll();
+    }
+
+    public function updatePerson(
+        string $id, 
+        string $name, 
+        string $last_name, 
+        string $email, 
+        string $identification)
+    {
+        $person = new Personal();
+        $person->setName($name)
+            ->setLastName($last_name)
+            ->setEmail($email)
+            ->setIdentification($identification);
+
+        $person_updated = $this->personalRepository->update($id, $person);
     }
 
     public function addPerson()
