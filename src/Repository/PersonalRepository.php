@@ -19,7 +19,11 @@ final class PersonalRepository extends ServiceEntityRepository
         parent::__construct($registry, Personal::class);
     }
 
-    public function transform(Personal $personal)
+    /**
+     * @param  Personal $personal
+     * @return array
+     */
+    public function transform(Personal $personal) : array
     {
         return [
                 'id'    => (int) $personal->getId(),
@@ -30,7 +34,7 @@ final class PersonalRepository extends ServiceEntityRepository
         ];
     }
 
-    public function transformAll()
+    public function transformAll() : array
     {
         $personal_list = $this->findAll();
         $personalArray = [];
@@ -42,16 +46,26 @@ final class PersonalRepository extends ServiceEntityRepository
         return $personalArray;
     }
 
-    public function update(string $id, Personal $data_updated)
+    public function update(string $id, Personal $data_updated) : Personal
     {
         $person = $this->find($id);
 
-        $person->setName($data_updated->name)
-            ->setLastName($data_updated->last_name)
-            ->setEmail($data_updated->email)
-            ->setIdentification($data_updated->identification);
+        $person->setName($data_updated->getName())
+            ->setLastName($data_updated->getLastName())
+            ->setEmail($data_updated->getEmail())
+            ->setIdentification($data_updated->getIdentification());
 
         $this->_em->flush();
+
+        return $person;
+    }
+
+    public function add(Personal $person) : ?Personal
+    {
+        $this->_em->persist($person);
+        $this->_em->flush();
+
+        return $person;
     }
 
     // /**

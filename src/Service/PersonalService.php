@@ -43,6 +43,14 @@ class PersonalService
         return $this->personalRepository->transformAll();
     }
 
+    /**
+     * @param  string $id
+     * @param  string $name
+     * @param  string $last_name
+     * @param  string $email
+     * @param  string $identification 
+     * @return array
+     */
     public function updatePerson(
         string $id, 
         string $name, 
@@ -57,11 +65,32 @@ class PersonalService
             ->setIdentification($identification);
 
         $person_updated = $this->personalRepository->update($id, $person);
+
+        return $this->personalRepository->transform($person_updated);
     }
 
-    public function addPerson()
+    /**
+     * @param  string $name
+     * @param  string $last_name
+     * @param  string $email
+     * @param  string $identification 
+     * @return array
+     */
+    public function addPerson(
+        string $name, 
+        string $last_name, 
+        string $email, 
+        string $identification)
     {
-        return $this->personalRepository->save();
+        $person = new Personal();
+        $person->setName($name)
+            ->setLastName($last_name)
+            ->setEmail($email)
+            ->setIdentification($identification);
+
+        $new_person = $this->personalRepository->add($person);
+
+        return $this->personalRepository->transform($new_person);
     }
     
     public function deletePerson($id)

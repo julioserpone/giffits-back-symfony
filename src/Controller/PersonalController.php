@@ -32,12 +32,46 @@ class PersonalController extends ApiController
 
     /**
     * @Route("/personal/{id}/edit", methods="GET")
+    * @param  string $id
     */
     public function edit(string $id)
     {
         $person = $this->personalService->getPerson($id);
 
         return ($person) ? $this->respond($person) : $this->respondNotFound('Person not found!!');
+    }
+
+    /**
+    * @Route("/personal/create", methods="POST")
+    */
+    public function create(Request $request)
+    {
+        $request = $this->transformJsonBody($request);
+
+        //Validate data
+        if (! $request->get('name')) {
+            return $this->respondValidationError('Please provide a name!');
+        }
+
+        if (! $request->get('last_name')) {
+            return $this->respondValidationError('Please provide a last name!');
+        }
+
+        if (! $request->get('email')) {
+            return $this->respondValidationError('Please provide a email!');
+        }
+
+        if (! $request->get('identification')) {
+            return $this->respondValidationError('Please provide a identification!');
+        }
+
+        $person = $this->personalService->addPerson(
+            $request->get('name'), 
+            $request->get('last_name'), 
+            $request->get('email'), 
+            $request->get('identification'));
+
+        return $this->respond($person);
     }
 
     /**
@@ -51,6 +85,23 @@ class PersonalController extends ApiController
         if (!$person) 
         {
             return $this->respondNotFound('Person not found!!');
+        }
+
+        //Validate data
+        if (! $request->get('name')) {
+            return $this->respondValidationError('Please provide a name!');
+        }
+
+        if (! $request->get('last_name')) {
+            return $this->respondValidationError('Please provide a last name!');
+        }
+
+        if (! $request->get('email')) {
+            return $this->respondValidationError('Please provide a email!');
+        }
+
+        if (! $request->get('identification')) {
+            return $this->respondValidationError('Please provide a identification!');
         }
 
         $person = $this->personalService->updatePerson(
